@@ -93,13 +93,18 @@ class AuthController:
         if not email or not password:
             raise ValueError('Email and password are required')
         
+        print(f"[DEBUG] Login attempt for: {email}", flush=True)
         user = self.user_model.find_by_email(email)
         if not user:
+            print(f"[DEBUG] User not found: {email}", flush=True)
             raise ValueError('Invalid email or password')
         
+        print(f"[DEBUG] User found: {user.get('name')}", flush=True)
         if not verify_password(password, user['password']):
+            print(f"[DEBUG] Password mismatch for: {email}", flush=True)
             raise ValueError('Invalid email or password')
         
+        print(f"[DEBUG] Password verified, generating token...", flush=True)
         access_token = generate_access_token(
             user_id=str(user['_id']),
             role=user['role'],
