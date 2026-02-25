@@ -29,25 +29,30 @@ def create_app():
     
     # Initialize extensions
     jwt.init_app(app)
-    # CORS configuration
-    origins = [
-        "http://localhost:5173",
-        "https://haswanth1234.github.io"
-    ]
-    CORS(app, resources={r"/api/*": {"origins": origins}}, supports_credentials=True)
+    # CORS configuration - Allow all origins temporarily for debugging
+    CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
     
     # MongoDB connection
     global mongo_client, db
     try:
         uri = app.config['MONGO_URI']
         is_local = "localhost" in uri or "127.0.0.1" in uri
+        
         # Log a masked version of the URI for debugging
         masked_uri = uri[:15] + "..." if len(uri) > 15 else uri
         print(f"[INFO] Connecting to MongoDB. URI starts with: {masked_uri}", flush=True)
         print(f"[INFO] Mode: {'LOCAL' if is_local else 'REMOTE'}", flush=True)
         
         mongo_client = MongoClient(uri, serverSelectionTimeoutMS=5000)
-        db = mongo_client.get_database()
+        
+        # Explicitly get the database name from the URI or fallback
+        # This fixes issues where get_database() might return 'test'
+        from pymongo.uri_parser import parse_uri
+        parsed = parse_uri(uri)
+        db_name = parsed['database'] or 'ai_student_companion'
+        print(f"[INFO] Using database: {db_name}", flush=True)
+        
+        db = mongo_client[db_name]
         # We don't ping here to prevent startup crash; let routes handle errors
         print("[OK] MongoDB client initialized", flush=True)
     except Exception as e:
