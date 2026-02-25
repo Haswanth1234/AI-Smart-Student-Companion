@@ -1,0 +1,346 @@
+/* Glassmorphism Premium Theme (Synced with Student UI) */
+:root {
+    /* Colors - Soft Cyan / Blue Accent Pattern */
+    --primary-color: #06b6d4;
+    /* Cyan 500 */
+    --primary-glow: rgba(6, 182, 212, 0.4);
+    --secondary-color: #6366f1;
+    /* Indigo 500 */
+
+    --success-color: #10b981;
+    /* Emerald 500 */
+    --warning-color: #f59e0b;
+    /* Amber 500 */
+    --danger-color: #ef4444;
+    /* Red 500 */
+
+    --bg-dark: #0f172a;
+    /* Slate 900 */
+    --bg-card: rgba(30, 41, 59, 0.7);
+    /* Slate 800 */
+
+    --text-primary: #f8fafc;
+    /* Slate 50 */
+    --text-secondary: #94a3b8;
+    /* Slate 400 */
+    --text-muted: #64748b;
+    /* Slate 500 */
+
+    /* Glass Effects */
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    /* 8% opacity */
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-highlight: rgba(255, 255, 255, 0.15);
+    --backdrop-blur: blur(14px);
+
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --shadow-glow: 0 0 20px var(--primary-glow);
+
+    --sidebar-width: 280px;
+}
+
+/* Global reset for admin */
+.admin-layout * {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #020617;
+    /* Very dark slate */
+    background-image:
+        radial-gradient(at 0% 0%, rgba(6, 182, 212, 0.15) 0, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(99, 102, 241, 0.1) 0, transparent 50%);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    min-height: 100vh;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+/* Glass Card Utility */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    /* Slightly reduced radius */
+    padding: 1.25rem;
+    /* Reduced from 1.75rem (~20px) */
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--glass-highlight), transparent);
+    opacity: 0.5;
+}
+
+.glass-card:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    /* box-shadow: var(--shadow-lg); */
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.text-secondary {
+    color: var(--text-secondary);
+}
+
+.text-success {
+    color: var(--success-color);
+}
+
+.text-warning {
+    color: var(--warning-color);
+}
+
+.text-danger {
+    color: var(--danger-color);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Layout Structure */
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar - Matching 'Floating Sidebar' from Student UI */
+.admin-sidebar {
+    width: var(--sidebar-width);
+    margin: 1rem 0 1rem 1rem;
+    /* Floating margin */
+    border-radius: 20px;
+    flex-shrink: 0;
+    background: rgba(15, 23, 42, 0.6);
+    /* Semi-transparent Slate 900 */
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur);
+    border: 1px solid var(--glass-border);
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-shadow: var(--shadow-lg);
+    position: fixed;
+    height: calc(100vh - 2rem);
+    /* Adjust height for margins */
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.admin-content {
+    margin-left: var(--sidebar-width);
+    flex: 1;
+    padding: 1.5rem;
+    width: calc(100% - var(--sidebar-width));
+    transition: all 0.3s ease;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 1024px) {
+    :root {
+        --sidebar-width: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-sidebar {
+        left: calc(-1 * var(--sidebar-width) - 2rem);
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        margin: 0;
+        height: 100vh;
+        border-radius: 0;
+    }
+
+    .admin-sidebar.open {
+        left: 0;
+    }
+
+    .admin-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 1rem;
+    }
+
+    .hidden-mobile {
+        display: none !important;
+    }
+
+    .mobile-only {
+        display: block !important;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .mobile-only {
+        display: none !important;
+    }
+
+    .close-sidebar-btn {
+        display: none !important;
+    }
+}
+
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 90;
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Dashboard Utilities */
+.dashboard-grid {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Data Tables */
+.glass-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.glass-table th {
+    text-align: left;
+    padding: 1rem 1.5rem;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-table td {
+    padding: 1rem 1.5rem;
+    color: var(--text-primary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+}
+
+.glass-table tr:last-child td {
+    border-bottom: none;
+}
+
+.glass-table tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Form Elements & Inputs */
+.glass-input {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    color: var(--text-primary);
+    outline: none;
+    transition: all 0.2s;
+}
+
+.glass-input:focus {
+    border-color: var(--primary-color);
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), #3b82f6);
+    color: white;
+    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.2);
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(6, 182, 212, 0.3);
+}
+/* Reports Grid Utilities */
+.reports-grid {
+    grid-template-columns: repeat(12, 1fr);
+}
+
+.attendance-chart { grid-column: span 8; }
+.performance-chart { grid-column: span 4; }
+.risk-table { grid-column: span 6; }
+.performers-table { grid-column: span 6; }
+
+@media (max-width: 1024px) {
+    .attendance-chart, .performance-chart, .risk-table, .performers-table {
+        grid-column: span 12;
+    }
+    .reports-grid {
+        grid-template-columns: 1fr;
+    }
+}

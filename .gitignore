@@ -1,0 +1,28 @@
+# Common
+.env
+.venv
+env/
+venv/
+ENV/
+*.log
+__pycache__/
+*.pyc
+
+# Frontend
+Frontend/frontend/node_modules/
+Frontend/frontend/dist/
+Frontend/frontend/.DS_Store
+Frontend/frontend/.env.local
+
+# Backend
+flask-auth-backend/__pycache__/
+flask-auth-backend/venv/
+flask-auth-backend/.env
+flask-auth-backend/.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+.gemini/
+*.swp
+*.swo
