@@ -29,13 +29,21 @@ def create_app():
     
     # Initialize extensions
     jwt.init_app(app)
-    # Allows credentials (for cookies/auth) and all origins for development
-    CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
+    # CORS configuration
+    origins = [
+        "http://localhost:5173",
+        "https://haswanth1234.github.io"
+    ]
+    CORS(app, resources={r"/api/*": {"origins": origins}}, supports_credentials=True)
     
     # MongoDB connection
     global mongo_client, db
     try:
-        mongo_client = MongoClient(app.config['MONGO_URI'])
+        uri = app.config['MONGO_URI']
+        is_local = "localhost" in uri or "127.0.0.1" in uri
+        print(f"Connecting to MongoDB ({'LOCAL' if is_local else 'REMOTE'})...")
+        
+        mongo_client = MongoClient(uri)
         db = mongo_client.get_database()
         mongo_client.admin.command('ping')
         print("[OK] MongoDB connected successfully")
