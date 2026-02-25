@@ -6,8 +6,15 @@ from app.utils.validators import validate_email, validate_password, validate_req
 class AuthController:
     """Authentication Controller"""
     
+    @property
+    def user_model(self):
+        """Lazy access to user model"""
+        if not hasattr(self, '_user_model'):
+            self._user_model = User()
+        return self._user_model
+
     def __init__(self):
-        self.user_model = User()
+        pass
     
     def register(self, data):
         """Register a new user (student or admin)"""

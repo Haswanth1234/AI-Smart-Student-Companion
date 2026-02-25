@@ -4,13 +4,21 @@ from bson import ObjectId
 class StudentAlert:
     """Student Alerts Model"""
     
-    def __init__(self):
+    @property
+    def collection(self):
+        """Lazy access to the collection"""
         from app import get_db
-        self.collection = get_db()['student_alerts']
-        self._create_indexes()
+        db = get_db()
+        if db is None:
+            raise RuntimeError("Database not initialized. Ensure create_app() has run.")
+        return db['student_alerts']
+
+    def __init__(self):
+        # Index creation should be handled outside of __init__
+        pass
     
-    def _create_indexes(self):
-        """Create indexes"""
+    def ensure_indexes(self):
+        """Manually ensure indexes are created"""
         try:
             self.collection.create_index('user_id')
             self.collection.create_index([('user_id', 1), ('is_read', 1)])

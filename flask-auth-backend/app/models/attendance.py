@@ -7,17 +7,21 @@ class Attendance:
     Each document represents one student's attendance for one date
     """
     
-    def __init__(self):
+    @property
+    def collection(self):
+        """Lazy access to the collection"""
         from app import get_db
-        self.collection = get_db()['attendance']
-        self._create_indexes()
+        db = get_db()
+        if db is None:
+            raise RuntimeError("Database not initialized. Ensure create_app() has run.")
+        return db['attendance']
+
+    def __init__(self):
+        # Index creation should be handled outside of __init__
+        pass
     
-    def _create_indexes(self):
-        """
-        Create compound index on student_id + date for:
-        - Fast lookups
-        - Prevent duplicate attendance for same student on same date
-        """
+    def ensure_indexes(self):
+        """Manually ensure indexes are created"""
         try:
             # Unique constraint: one attendance record per student per date
             self.collection.create_index(

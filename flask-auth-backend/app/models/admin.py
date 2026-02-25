@@ -2,19 +2,26 @@ from datetime import datetime
 from bson import ObjectId
 
 class Admin:
-    def __init__(self):
+    @property
+    def collection(self):
+        """Lazy access to the collection"""
         from app import get_db
-        self.collection = get_db()['admins']
-        self._create_indexes()
+        db = get_db()
+        if db is None:
+            raise RuntimeError("Database not initialized. Ensure create_app() has run.")
+        return db['admins']
+
+    def __init__(self):
+        # Index creation should be handled outside of __init__ if possible
+        pass
     
-    def _create_indexes(self):
-        """Create unique index for email"""
+    def ensure_indexes(self):
+        """Manually ensure indexes are created"""
         try:
             self.collection.create_index('email', unique=True)
-            # Create compound index for department and college for efficient queries
             self.collection.create_index([('department', 1), ('college_name', 1)])
         except:
-            pass  # Index might already exist
+            pass
     
     def create(self, admin_data):
         """Create a new admin"""

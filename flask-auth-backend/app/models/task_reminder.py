@@ -6,13 +6,21 @@ class Task:
     Task Model - Handles the tasks collection
     """
     
-    def __init__(self):
+    @property
+    def collection(self):
+        """Lazy access to the collection"""
         from app import get_db
-        self.collection = get_db()['tasks']
-        self._create_indexes()
+        db = get_db()
+        if db is None:
+            raise RuntimeError("Database not initialized. Ensure create_app() has run.")
+        return db['tasks']
+
+    def __init__(self):
+        # Index creation should be handled outside of __init__
+        pass
     
-    def _create_indexes(self):
-        """Create database indexes for faster queries"""
+    def ensure_indexes(self):
+        """Manually ensure indexes are created"""
         try:
             self.collection.create_index('user_id')
             self.collection.create_index('due_date')

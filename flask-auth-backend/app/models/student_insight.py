@@ -4,13 +4,21 @@ from bson import ObjectId
 class StudentInsight:
     """Student Insights Model"""
     
-    def __init__(self):
+    @property
+    def collection(self):
+        """Lazy access to the collection"""
         from app import get_db
-        self.collection = get_db()['student_insights']
-        self._create_indexes()
+        db = get_db()
+        if db is None:
+            raise RuntimeError("Database not initialized. Ensure create_app() has run.")
+        return db['student_insights']
+
+    def __init__(self):
+        # Index creation should be handled outside of __init__
+        pass
     
-    def _create_indexes(self):
-        """Create indexes for fast queries"""
+    def ensure_indexes(self):
+        """Manually ensure indexes are created"""
         try:
             self.collection.create_index('user_id')
             self.collection.create_index([('user_id', 1), ('generated_at', -1)])
