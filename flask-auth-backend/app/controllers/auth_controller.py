@@ -107,9 +107,9 @@ class AuthController:
         print(f"[DEBUG] Password verified, generating token...", flush=True)
         access_token = generate_access_token(
             user_id=str(user['_id']),
-            role=user['role'],
-            department=user['department'],
-            college_name=user['college_name']
+            role=user.get('role', 'student'),
+            department=user.get('department', 'GENERAL'),
+            college_name=user.get('college_name', 'GENERAL')
         )
         
         # Return user data with profile_completed status and roll_number
@@ -122,9 +122,9 @@ class AuthController:
                 'email': user['email'],
                 'phone': user.get('phone'),
                 'roll_number': user.get('roll_number'),  # NEW: Include roll_number
-                'role': user['role'],
-                'department': user['department'],
-                'college_name': user['college_name'],
+                'role': user.get('role', 'student'),
+                'department': user.get('department', 'GENERAL'),
+                'college_name': user.get('college_name', 'GENERAL'),
                 'profile_completed': user.get('profile_completed', False)
             }
         }
