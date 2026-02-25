@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/student/profile';
+import API_BASE_URL from './api';
+const API_URL = `${API_BASE_URL}/api/student/profile`;
 
 const getAuthHeader = () => {
     const token = localStorage.getItem('token');
@@ -24,3 +25,5 @@ export const updateProfile = async (profileData) => {
         throw error.response?.data?.error || 'Failed to update profile';
     }
 };
+
+

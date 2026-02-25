@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/student/alerts';
+import API_BASE_URL from './api';
+const API_URL = `${API_BASE_URL}/api/student/alerts`;
 
 const getAuthHeader = () => {
     const token = localStorage.getItem('token');
@@ -16,3 +17,5 @@ export const getAlerts = async () => {
         return { alerts: [] }; // Fallback
     }
 };
+
+

@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/admin/attendance';
+import API_BASE_URL from './api';
+const API_URL = `${API_BASE_URL}/api/admin/attendance`;
 
 const getAuthHeader = () => {
     const token = localStorage.getItem('token');
@@ -28,3 +29,5 @@ export const markAttendance = async (studentId, date, status) => {
         throw error.response?.data?.error || 'Failed to mark attendance';
     }
 };
+
+

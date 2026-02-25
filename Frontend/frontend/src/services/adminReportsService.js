@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/admin/dashboard";
+import API_BASE_URL from './api';
+const API_URL = `${API_BASE_URL}/api/admin/dashboard`;
 
 // Helper to get auth header
 const getAuthHeader = () => {
@@ -27,3 +28,5 @@ export const getReportsData = async () => {
         handleError(err);
     }
 };
+
+

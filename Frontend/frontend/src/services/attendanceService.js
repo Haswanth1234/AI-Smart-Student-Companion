@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/student/attendance';
+import API_BASE_URL from './api';
+const API_URL = `${API_BASE_URL}/api/student/attendance`;
 
 const getAuthHeader = () => {
     const token = localStorage.getItem('token');
@@ -15,3 +16,5 @@ export const getAttendance = async () => {
         throw error.response?.data?.error || 'Failed to fetch attendance';
     }
 };
+
+

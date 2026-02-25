@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/admin";
+import API_BASE_URL from './api';
+const API_URL = `${API_BASE_URL}/api/admin`;
 
 // Helper to get auth header
 const getAuthHeader = () => {
@@ -39,3 +40,5 @@ export const changeAdminPassword = async (currentPassword, newPassword) => {
         throw err.response?.data?.error || "Failed to change password";
     }
 };
+
+

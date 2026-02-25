@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/admin';
+import API_BASE_URL from './api';
+const API_URL = `${API_BASE_URL}/api/admin`;
 
 const getAuthHeader = () => {
     const token = localStorage.getItem('token');
@@ -24,3 +25,5 @@ export const getStudentDetails = async (studentId) => {
         throw error.response?.data?.error || 'Failed to fetch student details';
     }
 };
+
+

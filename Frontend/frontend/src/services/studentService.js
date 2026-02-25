@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/student";
+import API_BASE_URL from './api';
+const API_URL = `${API_BASE_URL}/api/student`;
 
 // Get student profile
 export const getStudentProfile = async (token) => {
@@ -35,3 +36,5 @@ export const updateStudentProfile = async (profileData, token) => {
   }
 };
 ``
+
+

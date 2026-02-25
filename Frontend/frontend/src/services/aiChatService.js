@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/student/ai/chat';
+import API_BASE_URL from './api';
+const API_URL = `${API_BASE_URL}/api/student/ai/chat`;
 
 const getAuthHeader = () => {
     const token = localStorage.getItem('token');
@@ -21,3 +22,5 @@ export const getChatHistory = async () => {
     // Assuming GET /api/student/ai/history might exist in future
     return [];
 };
+
+

@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/admin';
+import API_BASE_URL from './api';
+const API_URL = `${API_BASE_URL}/api/admin`;
 
 export const getAlerts = async () => {
     const token = localStorage.getItem('token');
@@ -29,3 +30,5 @@ export const resolveAlert = async (alertId, notes) => {
         throw error;
     }
 };
+
+

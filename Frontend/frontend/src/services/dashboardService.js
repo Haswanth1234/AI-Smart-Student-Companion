@@ -5,7 +5,8 @@ import axios from 'axios';
 // The user request mentioned: GET /api/student/dashboard/overview
 // I will attempt to hit that, if 404, we handle gracefully.
 
-const API_URL = 'http://localhost:5000/api/student/dashboard/overview';
+import API_BASE_URL from './api';
+const API_URL = `${API_BASE_URL}/api/student/dashboard/overview`;
 
 const getAuthHeader = () => {
     const token = localStorage.getItem('token');
@@ -23,3 +24,5 @@ export const getDashboardOverview = async () => {
         return null;
     }
 };
+
+

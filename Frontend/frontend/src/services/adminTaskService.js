@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/admin/dashboard/tasks';
+import API_BASE_URL from './api';
+const API_URL = `${API_BASE_URL}/api/admin/dashboard/tasks`;
 
 const getAuthHeader = () => {
     const token = localStorage.getItem('token');
@@ -42,3 +43,5 @@ export const deleteTask = async (taskId) => {
         throw error.response?.data?.error || 'Failed to delete task';
     }
 };
+
+

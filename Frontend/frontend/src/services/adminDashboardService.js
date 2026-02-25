@@ -1,6 +1,7 @@
 import axios from "axios";
+import API_BASE_URL from "./api";
 
-const API_URL = "http://localhost:5000/api/admin/dashboard";
+const API_URL = `${API_BASE_URL}/api/admin/dashboard`;
 
 // Helper to get auth header
 const getAuthHeader = () => {
@@ -42,3 +43,4 @@ export const getAttendance = async () => {
     // TODO: Implement actual API call
     return [];
 };
+
