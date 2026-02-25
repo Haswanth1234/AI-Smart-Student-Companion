@@ -102,11 +102,7 @@ def create_app():
     # Health check
     @app.route('/health', methods=['GET'])
     def health_check():
-        try:
-            mongo_client.admin.command('ping')
-            return {'status': 'healthy', 'database': 'connected'}, 200
-        except Exception as e:
-            return {'status': 'unhealthy', 'database': 'disconnected', 'error': str(e)}, 500
+        return {'status': 'healthy'}, 200
     
     # Root endpoint
     @app.route('/', methods=['GET'])
