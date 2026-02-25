@@ -41,15 +41,18 @@ def create_app():
     try:
         uri = app.config['MONGO_URI']
         is_local = "localhost" in uri or "127.0.0.1" in uri
-        print(f"Connecting to MongoDB ({'LOCAL' if is_local else 'REMOTE'})...")
+        # Log a masked version of the URI for debugging
+        masked_uri = uri[:15] + "..." if len(uri) > 15 else uri
+        print(f"[INFO] Connecting to MongoDB. URI starts with: {masked_uri}")
+        print(f"[INFO] Mode: {'LOCAL' if is_local else 'REMOTE'}")
         
-        mongo_client = MongoClient(uri)
+        mongo_client = MongoClient(uri, serverSelectionTimeoutMS=5000)
         db = mongo_client.get_database()
-        mongo_client.admin.command('ping')
-        print("[OK] MongoDB connected successfully")
+        # We don't ping here to prevent startup crash; let routes handle errors
+        print("[OK] MongoDB client initialized")
     except Exception as e:
-        print(f"[ERROR] MongoDB connection failed: {e}")
-        raise
+        print(f"[ERROR] MongoDB initialization failed: {e}")
+        # Don't raise here, allow the app to start so logs can be seen
     
     # Register blueprints
     from app.routes.auth_routes import auth_bp
