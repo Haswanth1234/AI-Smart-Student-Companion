@@ -41,7 +41,11 @@ def login():
         result = auth_controller.login(data)
         return jsonify(result), 200
     except ValueError as e:
+        print(f"[AUTH] Validation error: {str(e)}", flush=True)
         return jsonify({'error': str(e)}), 401
     except Exception as e:
-        return jsonify({'error': 'Login failed', 'details': str(e)}), 500
+        import traceback
+        print("[AUTH] CRITICAL LOGIN ERROR:", flush=True)
+        traceback.print_exc()
+        return jsonify({'error': 'Internal server error during login', 'details': str(e)}), 500
     
